@@ -1,3 +1,4 @@
+use std::process;
 use serenity::{
     framework::{
         StandardFramework,
@@ -12,20 +13,32 @@ mod token;
 
 #[tokio::main]
 async fn main(){
-    let token=token::get_token("config.json").expect("Error: トークンが見つかりませんでした.");
+    let token=match token::get_token("config.json"){
+        Ok(ok)=>ok,
+        Err(err)=>{
+            eprint!("Error: serde_json said, {}\n",err);
+            process::exit(1);
+        }
+    };
 
     let framework=StandardFramework::new()
         .configure(|c|c.prefix("tick tackun: "))
         .help(&group::HELP)
         .group(&group::GENERAL_GROUP);
 
-    let mut client=Client::builder(&token)
+    let mut client=match Client::builder(&token)
         .event_handler(handler::Handler)
         .framework(framework)
-        .await
-        .expect("Error: クライアントを作成できませんでした.");
+        .await{
+            Ok(ok)=>ok,
+            Err(err)=>{
+                eprint!("Error: serenity said, {}\n",err);
+                process::exit(1);
+            }
+        };
 
     if let Err(err)=client.start().await{
-        print!("Error: {}",err);
+        eprint!("Error: serenity said, {}\n",err);
+        process::exit(1);
     }
 }
