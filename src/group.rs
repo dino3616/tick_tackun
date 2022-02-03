@@ -16,7 +16,7 @@ use serenity::{
     },
     prelude::Context,
 };
-use crate::commands::hello::*;
+use super::commands::hello::*;
 
 #[group]
 #[summary("一般")]

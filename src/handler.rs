@@ -4,23 +4,43 @@ use serenity::{
     model::channel::Message,
     prelude::{Context,EventHandler},
 };
+use indoc::formatdoc;
+use super::tick_tackun::*;
 
 pub struct Handler;
 
 #[async_trait]
 impl EventHandler for Handler{
     async fn message(&self, ctx: Context, msg: Message){
-        if msg.author.bot==true|!is_tingling_words(&msg.content){
+        if msg.author.bot==true|!TickTackun::is_tingling_words(&msg.content){
             return;
         }
 
-        if let Err(err)=msg.author.direct_message(&ctx,|m|m.content(&msg.content)).await{
+        let warning_message=formatdoc!{"
+            あなたは「チクチク言葉」を発言してしまったかもしれません。
+            誰かがスマイルじゃなくなるような表現は避けてください。
+            あなたと、私と、それとみんなのスマイルのためです。
+
+            You may have uttered the tingling words.
+            Please don't say anything that would make someone not smile.
+            It is for yours, mine, and everyone else's smile.
+
+            {}"
+            ,msg.link()
+        };
+
+        if let Err(err)=msg.author.direct_message(&ctx,|m|m.content(warning_message)).await{
             eprint!("Error: serenity said, {}\n",err);
             process::exit(1);
         }
     }
 }
+/*
+あなたは「チクチク言葉」を発言してしまったかもしれません。
+誰かがスマイルじゃなくなるような表現は避けてください。
+あなたと、私と、それとみんなのスマイルのためです。
 
-fn is_tingling_words(_word: &String)->bool{
-    true
-}
+You may have uttered the tingling words.
+Please don't say anything that would make someone not smile.
+It is for yours, mine, and everyone else's smile.
+*/

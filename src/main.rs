@@ -9,6 +9,7 @@ use serenity::{
 mod commands;
 mod group;
 mod handler;
+mod tick_tackun;
 mod token;
 
 #[tokio::main]
@@ -22,7 +23,7 @@ async fn main(){
     };
 
     let framework=StandardFramework::new()
-        .configure(|c|c.prefix("tick tackun: "))
+        .configure(|c|c.with_whitespace(true).prefix("tick tackun:"))
         .help(&group::HELP)
         .group(&group::GENERAL_GROUP);
 
