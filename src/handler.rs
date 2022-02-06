@@ -35,12 +35,3 @@ impl EventHandler for Handler{
         }
     }
 }
-/*
-あなたは「チクチク言葉」を発言してしまったかもしれません。
-誰かがスマイルじゃなくなるような表現は避けてください。
-あなたと、私と、それとみんなのスマイルのためです。
-
-You may have uttered the tingling words.
-Please don't say anything that would make someone not smile.
-It is for yours, mine, and everyone else's smile.
-*/
