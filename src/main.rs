@@ -9,6 +9,7 @@ use serenity::{
 mod commands;
 mod group;
 mod handler;
+mod sql;
 mod tick_tackun;
 mod token;
 

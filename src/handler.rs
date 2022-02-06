@@ -12,7 +12,7 @@ pub struct Handler;
 #[async_trait]
 impl EventHandler for Handler{
     async fn message(&self, ctx: Context, msg: Message){
-        if msg.author.bot==true|!TickTackun::is_tingling_words(&msg.content){
+        if msg.author.bot==true|!TickTackun::is_tingling_words(&msg.content).await{
             return;
         }
 
