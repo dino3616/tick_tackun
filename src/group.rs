@@ -16,15 +16,13 @@ use serenity::{
     },
     prelude::Context,
 };
-use super::commands::hello::*;
+use super::commands::show_words::*;
 
 #[group]
-#[summary("一般")]
-#[commands(hello)]
+#[commands(show_words)]
 struct General;
 
 #[help]
-#[individual_command_tip="こいつはヘルプコマンド。こいつはケン。そしてこの御方はリュウセイさん。"]
 async fn help(ctx: &Context,msg: &Message,args: Args,help_options: &'static HelpOptions,groups: &[&'static CommandGroup],owners: HashSet<UserId>)->CommandResult{
     let _=help_commands::with_embeds(ctx,msg,args,help_options,groups,owners).await;
 
